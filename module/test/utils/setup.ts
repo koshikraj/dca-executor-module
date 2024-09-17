@@ -43,9 +43,14 @@ export const getMockTarget = async () => {
   return await ethers.getContractAt('MockTarget', ModuleDeployment.address)
 }
 
-export const getAutoDCAModule = async () => {
-  const validator = await deployments.get('AutoDCASessionModule')
-  return await ethers.getContractAt('AutoDCASessionModule', validator.address)
+export const getAutoDCAExecutor= async () => {
+  const validator = await deployments.get('AutoDCAExecutor')
+  return await ethers.getContractAt('AutoDCAExecutor', validator.address)
+}
+
+export const getSessionValidator = async () => {
+  const validator = await deployments.get('SessionValidator')
+  return await ethers.getContractAt('SessionValidator', validator.address)
 }
 
 export const getSafe7579 = async () => {
@@ -53,9 +58,14 @@ export const getSafe7579 = async () => {
   return await ethers.getContractAt('Safe7579', ModuleDeployment.address)
 }
 
-export const getTestToken = async () => {
+export const getTestToken = async (address?: string) => {
   const TestToken = await deployments.get('HariWillibaldToken')
-  return await ethers.getContractAt('HariWillibaldToken', TestToken.address)
+  return await ethers.getContractAt('HariWillibaldToken', address?  address :TestToken.address)
+}
+
+export const getTestVault = async (address?: string) => {
+  const TestVault = await deployments.get('TestVault')
+  return await ethers.getContractAt('TestVault', address?  address :TestVault.address)
 }
 
 export const getEntryPoint = async () => {

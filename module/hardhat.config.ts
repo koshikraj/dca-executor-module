@@ -36,6 +36,7 @@ import './src/tasks/local_verify'
 import './src/tasks/deploy_contracts'
 import './src/tasks/show_codesize'
 
+
 const solidityVersion = SOLIDITY_VERSION || '0.8.23'
 const soliditySettings = SOLIDITY_SETTINGS
   ? JSON.parse(SOLIDITY_SETTINGS)
@@ -88,7 +89,13 @@ const userConfig: HardhatUserConfig = {
       tags: ['dev', 'entrypoint', 'safe'],
     },
     hardhat: {
+      forking: {
+        url: "https://polygon-mainnet.infura.io/v3/c0201f3cd3894e30b62af4bb542b5779",
+        blockNumber: 62447560,
+
+      },
       gasPrice: 10000000000,
+      chainId: 137,
       tags: ['test', 'entrypoint', 'safe'],
       // allowUnlimitedContractSize: true,
     },
@@ -103,6 +110,10 @@ const userConfig: HardhatUserConfig = {
     polygon: {
       ...sharedNetworkConfig,
       url: `https://polygon-mainnet.infura.io/v3/${INFURA_KEY}`,
+    },
+    arbitrum: {
+      ...sharedNetworkConfig,
+      url: `https://arb1.arbitrum.io/rpc`,
     },
     sepolia: {
       ...sharedNetworkConfig,

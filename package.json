@@ -28,5 +28,8 @@
     "Ethereum",
     "7579",
     "Safe"
-  ]
+  ],
+  "dependencies": {
+    "@aws-sdk/client-kms": "^3.651.1"
+  }
 }

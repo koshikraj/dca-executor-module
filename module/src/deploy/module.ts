@@ -8,13 +8,22 @@ const deploy: DeployFunction = async ({ deployments, getNamedAccounts }) => {
 
   const entryPoint = await deployments.getOrNull('EntryPoint').then((deployment) => deployment?.address ?? ENTRY_POINT)
 
-  await deploy('AutoDCASessionModule', {
+  await deploy('AutoDCAExecutor', {
+    from: deployer,
+    args: [],
+    log: true,
+    deterministicDeployment: true,
+  })
+
+  await deploy('SessionValidator', {
     from: deployer,
     args: [],
     log: true,
     deterministicDeployment: true,
   })
 }
+
+
 
 deploy.dependencies = ['entrypoint']
 
