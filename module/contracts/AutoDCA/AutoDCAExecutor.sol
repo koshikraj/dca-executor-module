@@ -34,7 +34,7 @@ contract AutoDCAExecutor is ERC7579ExecutorBase {
         address token;
         address targetToken;
         address vault;
-        
+
         uint48 validAfter;
         uint48 validUntil;
         uint256 limitAmount;
@@ -50,6 +50,13 @@ contract AutoDCAExecutor is ERC7579ExecutorBase {
     error ExecutionFailed();
 
     function onInstall(bytes calldata data) external override {
+
+    if (data.length == 0) return;
+
+    (JobData memory jobData) = abi.decode(data, (JobData));
+
+    createJob(jobData);
+    
     }
 
     function onUninstall(bytes calldata) external override {

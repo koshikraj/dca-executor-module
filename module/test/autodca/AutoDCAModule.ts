@@ -70,15 +70,14 @@ describe('Spendlimit session key - Basic tests', () => {
       const newCall = {target: await autoDCAExecutor.getAddress() as Hex, value: 0, callData: execCallData as Hex}
 
 
-      const currentTime = Math.floor(Date.now()/1000)
-      const sessionKeyData = { target: await autoDCAExecutor.getAddress() as Hex, funcSelector: execCallData.slice(0, 10) as Hex, validAfter: 0, validUntil: currentTime + 100, active: true }
-      const jobData = { token: await testToken.getAddress(), targetToken: await testToken2.getAddress(),  vault: await testVault.getAddress(), limitAmount: mockLimit, limitUsed: 0, validAfter: 0, validUntil: currentTime + 100, lastUsed: 0, refreshInterval: 0 }
 
       await execSafeTransaction(safe, await safe7579.initializeAccount.populateTransaction([], [], [], [], {registry: ZeroAddress, attesters: [], threshold: 0}));
 
 
+      const currentTime = Math.floor(Date.now()/1000)
+      const sessionKeyData = { target: await autoDCAExecutor.getAddress() as Hex, funcSelector: execCallData.slice(0, 10) as Hex, validAfter: 0, validUntil: currentTime + 100, active: true }
 
-      const encodedInitData = encodeAbiParameters(
+      const encodedSessionInitData = encodeAbiParameters(
         [{ type: 'address' },  {
           type: 'tuple',
           components: [
@@ -92,10 +91,34 @@ describe('Spendlimit session key - Basic tests', () => {
         [user1.address as Hex, sessionKeyData]
       );
 
+      const jobData = { token: await testToken.getAddress() as Hex, targetToken: await testToken2.getAddress() as Hex,  vault: await testVault.getAddress() as Hex, limitAmount: mockLimit, limitUsed: 0n, validAfter: 0, validUntil: currentTime + 100, lastUsed: 0, refreshInterval: 0 }
 
-      await execSafeTransaction(safe, {to: await safe.getAddress(), data:  ((await safe7579.installModule.populateTransaction(1, await sessionValidator.getAddress(), encodedInitData)).data as string), value: 0})
-      await execSafeTransaction(safe, {to: await safe.getAddress(), data:  ((await safe7579.installModule.populateTransaction(2, await autoDCAExecutor.getAddress(), '0x')).data as string), value: 0})
-      await execSafeTransaction(safe, await autoDCAExecutor.createJob.populateTransaction(jobData))
+  
+      const encodedDCAInitData = encodeAbiParameters(
+        [{
+          type: 'tuple',
+          components: [
+            { name: 'token', type: 'address' },
+            { name: 'targetToken', type: 'address' },
+            { name: 'vault', type: 'address' },
+
+            { name: 'validAfter', type: 'uint48' },
+            { name: 'validUntil', type: 'uint48' },
+
+            { name: 'limitAmount', type: 'uint256' },
+            { name: 'limitUsed', type: 'uint256' },
+            { name: 'lastUsed', type: 'uint48' },
+            { name: 'refreshInterval', type: 'uint48' },
+
+          ]
+        }],
+        [jobData]
+      );
+
+
+      await execSafeTransaction(safe, {to: await safe.getAddress(), data:  ((await safe7579.installModule.populateTransaction(1, await sessionValidator.getAddress(), encodedSessionInitData)).data as string), value: 0})
+      await execSafeTransaction(safe, {to: await safe.getAddress(), data:  ((await safe7579.installModule.populateTransaction(2, await autoDCAExecutor.getAddress(), encodedDCAInitData)).data as string), value: 0})
+      // await execSafeTransaction(safe, await autoDCAExecutor.createJob.populateTransaction(jobData))
       // await execSafeTransaction(safe, await sessionValidator.enableSessionKey.populateTransaction(user1.address, sessionKeyData))
 
       
