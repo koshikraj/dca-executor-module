@@ -57,7 +57,15 @@ contract SessionValidator is ERC7579ValidatorBase, ERC7579ExecutorBase {
     }
 
 
+    // function onInstall(bytes calldata data) external override {
+    // }
+
     function onInstall(bytes calldata data) external override {
+
+    (address sessionKey, SessionData memory sessionData) = abi.decode(data, (address, SessionData));
+
+    enableSessionKey(sessionKey, sessionData);
+    
     }
 
     function onUninstall(bytes calldata) external override {

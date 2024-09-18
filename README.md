@@ -1,10 +1,10 @@
-# Module template for 7579 + Safe
+# Exector module for DCA jobs
 
-[![License](https://img.shields.io/badge/license-GPL3-blue.svg)](https://github.com/koshikraj/module-template-7579/blob/main/LICENSE)
+[![Developer Using](](https://github.com/koshikraj/module-template-7579)
 
 ## Description
 
-Module template to build modules for Safe accounts using ERC-7579 standard
+Exector module for DCA jobs for Safe accounts using ERC-7579 standard
 
 ## Features
 
@@ -17,15 +17,8 @@ Module template to build modules for Safe accounts using ERC-7579 standard
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/koshikraj/module-template-7579.git
+    git clone https://github.com/koshikraj/dca-executor-module.git
     ```
-
-2. Project structure:
-
-├── module-template-7579 <br/>
-│   ├── [Safe App](./web)<br/>
-│   ├── [Module](./module)<br/>
-│   └── [Dependency Packages](./packages)
 
 
 
@@ -35,7 +28,7 @@ Contributions are welcome! Please follow the [contribution guidelines](CONTRIBUT
 
 ## Acknowledgments
 
-This project uses the `OwnableValidator` module from the Rhinestone's [collection of core 7579 modules](https://github.com/rhinestonewtf/core-modules).
+The session key validator module is inspired by [Etherspot's ERC20SessionKeyValidator.sol](https://github.com/etherspot/etherspot-prime-contracts/tree/master/src/modular-etherspot-wallet/modules/validators).
 
 ## License
 
