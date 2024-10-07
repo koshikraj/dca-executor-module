@@ -81,14 +81,14 @@ contract SessionValidator is ERC7579ValidatorBase, ERC7579ExecutorBase {
         PackedUserOperation calldata userOp,
         bytes32 userOpHash
     ) external override returns (ValidationData) {
-        address sessionKeySigner = ECDSA.recover(
+        address sessionKeySigner = ECDSA.tryRecover(
             ECDSA.toEthSignedMessageHash(userOpHash),
             userOp.signature
         );
         if (!validateSessionKeyParams(sessionKeySigner, userOp))
             return VALIDATION_FAILED;
         SessionData memory sd = sessionKeyData[sessionKeySigner][msg.sender];
-        return _packValidationData(false, sd.validUntil, sd.validAfter);
+        return _packValidationData(false, type(uint48).max, 0);
     }
 
 

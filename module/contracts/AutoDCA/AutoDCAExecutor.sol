@@ -194,8 +194,8 @@ contract AutoDCAExecutor is ERC7579ExecutorBase {
     }
 
 
-    function getJobData() public view returns (JobData[] memory) {
-        return jobDetails[msg.sender];
+    function getJobData(address account) public view returns (JobData[] memory) {
+        return jobDetails[account];
     }
 
 
